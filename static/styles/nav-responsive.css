@@ -1,0 +1,354 @@
+/* ======================= */
+/* Navegação Lateral Responsiva */
+/* ======================= */
+
+/* Estilos base para o menu hambúrguer */
+.fundo-menu {
+    border: solid 3px #d1b3cf;
+    border-radius: 100%;
+    width: 50px;
+    height: 50px;
+    left: 30px;
+    top: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1200;
+    transition: all 0.3s ease;
+}
+
+.menu {
+    width: 30px;
+    height: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    z-index: 1300;
+}
+
+.linha {
+    height: 4px;
+    background: #d1b3cf;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Animação do menu hambúrguer quando ativo */
+.menu.ativo .linha:nth-child(1) {
+    transform: rotate(45deg) translate(9px, 8px);
+}
+
+.menu.ativo .linha:nth-child(2) {
+    opacity: 0;
+}
+
+.menu.ativo .linha:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Navegação lateral base */
+.nav {
+    position: fixed;
+    top: 0;
+    left: -110px; /* Inicialmente escondida */
+    width: 110px;
+    height: 100vh;
+    background: linear-gradient(180deg, #252525 0%, #1a1a1a 100%);
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-top: 70px;
+    z-index: 1100;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Navegação ativa (visível) */
+.nav.ativo {
+    left: 0;
+}
+
+/* Lista de navegação */
+.nav ul {
+    height: 50%;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.nav ul li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.nav ul li:hover {
+    background: rgba(166, 0, 255, 0.2);
+    border-radius: 8px;
+    margin: 0 10px;
+}
+
+.nav ul li a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.nav ul li i {
+    font-size: 25px;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.nav ul li:hover i {
+    color: #d1b3cf;
+    transform: scale(1.1);
+}
+
+/* Overlay para fechar o menu em telas pequenas */
+.nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.nav-overlay.ativo {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ======================= */
+/* Responsividade da Navegação */
+/* ======================= */
+
+/* Desktop - navegação sempre visível */
+@media (min-width: 1201px) {
+    .nav {
+        left: 0; /* Sempre visível */
+    }
+    
+    .fundo-menu {
+        display: none; /* Esconder menu hambúrguer */
+    }
+    
+    .nav-overlay {
+        display: none; /* Não precisa de overlay */
+    }
+    
+    /* Ajustar conteúdo para navegação fixa */
+    .content-with-nav {
+        margin-left: 110px;
+    }
+}
+
+/* Tablets */
+@media (max-width: 1200px) and (min-width: 769px) {
+    .nav {
+        width: 80px;
+        left: -80px;
+    }
+    
+    .nav.ativo {
+        left: 0;
+    }
+    
+    .nav ul li i {
+        font-size: 22px;
+    }
+    
+    .fundo-menu {
+        width: 45px;
+        height: 45px;
+        left: 25px;
+        top: 20px;
+    }
+    
+    .menu {
+        width: 25px;
+        height: 18px;
+    }
+    
+    .content-with-nav {
+        margin-left: 0;
+        transition: margin-left 0.3s ease;
+    }
+    
+    .content-with-nav.nav-open {
+        margin-left: 80px;
+    }
+}
+
+/* Smartphones */
+@media (max-width: 768px) {
+    .nav {
+        width: 250px;
+        left: -250px;
+        background: linear-gradient(180deg, #252525 0%, #1a1a1a 100%);
+        box-shadow: 2px 0 15px rgba(0, 0, 0, 0.4);
+    }
+    
+    .nav.ativo {
+        left: 0;
+    }
+    
+    .nav ul {
+        padding-top: 20px;
+        gap: 15px;
+    }
+    
+    .nav ul li {
+        margin: 0 15px;
+        border-radius: 10px;
+        height: 50px;
+    }
+    
+    .nav ul li a {
+        height: 50px;
+        justify-content: flex-start;
+        padding-left: 20px;
+        gap: 15px;
+    }
+    
+    .nav ul li i {
+        font-size: 20px;
+    }
+    
+    /* Adicionar texto aos ícones em telas pequenas */
+    .nav ul li a::after {
+        content: attr(data-label);
+        color: white;
+        font-size: 14px;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+    
+    .nav ul li:hover a::after {
+        color: #d1b3cf;
+    }
+    
+    .fundo-menu {
+        width: 40px;
+        height: 40px;
+        left: 20px;
+        top: 15px;
+        border-width: 2px;
+    }
+    
+    .menu {
+        width: 22px;
+        height: 16px;
+    }
+    
+    .linha {
+        height: 3px;
+    }
+    
+    .content-with-nav {
+        margin-left: 0;
+    }
+}
+
+/* Telas muito pequenas */
+@media (max-width: 480px) {
+    .nav {
+        width: 280px;
+        left: -280px;
+    }
+    
+    .fundo-menu {
+        width: 35px;
+        height: 35px;
+        left: 15px;
+        top: 10px;
+    }
+    
+    .menu {
+        width: 20px;
+        height: 14px;
+    }
+    
+    .linha {
+        height: 2px;
+    }
+    
+    .nav ul li {
+        height: 45px;
+    }
+    
+    .nav ul li a {
+        height: 45px;
+        padding-left: 15px;
+    }
+    
+    .nav ul li i {
+        font-size: 18px;
+    }
+    
+    .nav ul li a::after {
+        font-size: 13px;
+    }
+}
+
+/* ======================= */
+/* Animações e Transições */
+/* ======================= */
+
+/* Animação suave para o conteúdo */
+.content-with-nav {
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Efeito de bounce no menu hambúrguer */
+.fundo-menu:active {
+    transform: scale(0.95);
+}
+
+/* Animação dos ícones */
+@keyframes iconPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.nav ul li.active i {
+    animation: iconPulse 0.3s ease;
+    color: #d1b3cf;
+}
+
+/* ======================= */
+/* Estados especiais */
+/* ======================= */
+
+/* Quando a navegação está aberta em mobile */
+@media (max-width: 768px) {
+    body.nav-open {
+        overflow: hidden; /* Previne scroll quando menu está aberto */
+    }
+}
+
+/* Indicador de página ativa */
+.nav ul li.current-page {
+    background: rgba(166, 0, 255, 0.3);
+    border-radius: 8px;
+    margin: 0 10px;
+}
+
+.nav ul li.current-page i {
+    color: #d1b3cf;
+}
