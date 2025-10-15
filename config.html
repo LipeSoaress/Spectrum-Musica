@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configurações - Spectrum</title>
+  <link rel="stylesheet" href="/static/styles/config.css" />
+  <link rel="stylesheet" href="/static/styles/nav-responsive.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+
+  <header>
+    <div class="fundo-menu">
+      <div class="menu" id="menu-hamburguer">
+        <span class="linha"></span>
+        <span class="linha"></span>
+        <span class="linha"></span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav" id="nav-elementos">
+    <ul>
+      <li>
+        <a href="index.html" data-label="Início">
+          <i class="fas fa-house"></i>
+        </a>
+      </li>
+      <li>
+        <a href="historico.html" data-label="Histórico">
+          <i class="fas fa-clock"></i>
+        </a>
+      </li>
+      <li class="current-page">
+        <a href="config.html" data-label="Configurações">
+          <i class="fas fa-gear"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <main class="content-with-nav">
+    <div class="page-header">
+      <h1>Configurações do Servidor</h1>
+      <p class="page-description">Configure a conexão com o servidor de música para acessar sua biblioteca</p>
+    </div>
+
+    <section class="config-section">
+      <div class="section-header">
+        <h2><i class="fas fa-server"></i> Conexão do Servidor</h2>
+      </div>
+      <div class="server-config">
+        <div class="input-group">
+          <label for="serverUrl">URL do Servidor Flask:</label>
+          <div class="input-wrapper">
+            <input 
+              id="serverUrl" 
+              type="url" 
+              inputmode="url" 
+              placeholder="http://SEU-IP:PORTA" 
+              autocomplete="off" 
+              spellcheck="false" 
+            />
+            <i class="fas fa-link input-icon"></i>
+          </div>
+        </div>
+        <button id="connectBtn" type="button" class="primary-btn">
+          <i class="fas fa-save"></i>
+          Salvar Configuração
+        </button>
+        <div id="status" aria-live="polite" class="status-message"></div>
+      </div>
+    </section>
+
+    <section class="config-section">
+      <div class="section-header">
+        <h2><i class="fas fa-wifi"></i> Status da Conexão</h2>
+      </div>
+      <div class="connection-status">
+        <div id="connectionIndicator" class="status-indicator offline">
+          <span class="status-dot"></span>
+          <span id="connectionText">Desconectado</span>
+        </div>
+        <button id="testConnectionBtn" type="button" class="secondary-btn">
+          <i class="fas fa-plug"></i>
+          Testar Conexão
+        </button>
+      </div>
+    </section>
+
+    <section class="config-section">
+      <div class="section-header">
+        <h2><i class="fas fa-cogs"></i> Configurações Avançadas</h2>
+      </div>
+      <div class="advanced-settings">
+        <div class="setting-item">
+          <label for="autoConnect" class="checkbox-label">
+            <input type="checkbox" id="autoConnect" />
+            <span class="checkmark"></span>
+            <div class="setting-info">
+              <span class="setting-title">Conectar automaticamente ao iniciar</span>
+              <span class="setting-description">Tenta conectar ao servidor automaticamente quando a página carrega</span>
+            </div>
+          </label>
+        </div>
+        
+        <div class="setting-item">
+          <label for="showNotifications" class="checkbox-label">
+            <input type="checkbox" id="showNotifications" />
+            <span class="checkmark"></span>
+            <div class="setting-info">
+              <span class="setting-title">Mostrar notificações de status</span>
+              <span class="setting-description">Exibe notificações quando o status da conexão muda</span>
+            </div>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <section class="config-section info-section">
+      <div class="section-header">
+        <h2><i class="fas fa-info-circle"></i> Informações</h2>
+      </div>
+      <div class="info-content">
+        <div class="info-item">
+          <i class="fas fa-question-circle"></i>
+          <div>
+            <strong>Como configurar?</strong>
+            <p>Insira a URL do seu servidor Flask no formato: http://IP:PORTA</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <i class="fas fa-shield-alt"></i>
+          <div>
+            <strong>Segurança</strong>
+            <p>Certifique-se de que está conectando a um servidor confiável</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2024 Spectrum Music Player. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    const entradaUrlServidor = document.getElementById('serverUrl');
+    const botaoConectar = document.getElementById('connectBtn');
+    const elementoStatus = document.getElementById('status');
+    const botaoTestarConexao = document.getElementById('testConnectionBtn');
+    const indicadorConexao = document.getElementById('connectionIndicator');
+    const textoConexao = document.getElementById('connectionText');
+    const autoConnect = document.getElementById('autoConnect');
+    const showNotifications = document.getElementById('showNotifications');
+
+    // Carrega configurações salvas
+    const urlSalva = localStorage.getItem('urlServidor');
+    const autoConnectSalvo = localStorage.getItem('autoConnect') === 'true';
+    const showNotificationsSalvo = localStorage.getItem('showNotifications') === 'true';
+
+    if (urlSalva) entradaUrlServidor.value = urlSalva;
+    autoConnect.checked = autoConnectSalvo;
+    showNotifications.checked = showNotificationsSalvo;
+
+    // Função para mostrar status
+    function mostrarStatus(mensagem, tipo = 'info') {
+      elementoStatus.textContent = mensagem;
+      elementoStatus.className = `status-message ${tipo}`;
+      elementoStatus.style.display = 'block';
+      
+      setTimeout(() => {
+        elementoStatus.style.display = 'none';
+      }, 4000);
+    }
+
+    // Função para atualizar status da conexão
+    function atualizarStatusConexao(online, mensagem = '') {
+      if (online) {
+        indicadorConexao.className = 'status-indicator online';
+        textoConexao.textContent = 'Conectado';
+      } else {
+        indicadorConexao.className = 'status-indicator offline';
+        textoConexao.textContent = mensagem || 'Desconectado';
+      }
+    }
+
+    // Função para testar conexão
+    async function testarConexao(url) {
+      try {
+        botaoTestarConexao.disabled = true;
+        botaoTestarConexao.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Testando...';
+        
+        const response = await fetch(`${url}/api/saude`);
+        if (response.ok) {
+          const data = await response.json();
+          atualizarStatusConexao(true);
+          mostrarStatus(`Conexão bem-sucedida! ${data.count} músicas disponíveis.`, 'success');
+          return true;
+        } else {
+          throw new Error('Servidor não respondeu corretamente');
+        }
+      } catch (error) {
+        atualizarStatusConexao(false, 'Erro de conexão');
+        mostrarStatus('Erro ao conectar com o servidor. Verifique a URL e tente novamente.', 'error');
+        return false;
+      } finally {
+        botaoTestarConexao.disabled = false;
+        botaoTestarConexao.innerHTML = '<i class="fas fa-plug"></i> Testar Conexão';
+      }
+    }
+
+    // Event listeners
+    botaoConectar.addEventListener('click', async () => {
+      const url = entradaUrlServidor.value.trim().replace(/\/$/, '');
+      if (!url) {
+        mostrarStatus('Por favor, informe a URL do servidor.', 'error');
+        entradaUrlServidor.focus();
+        return;
+      }
+      
+      // Validação básica de URL
+      try {
+        new URL(url);
+      } catch {
+        mostrarStatus('URL inválida. Use o formato: http://IP:PORTA', 'error');
+        entradaUrlServidor.focus();
+        return;
+      }
+      
+      localStorage.setItem('urlServidor', url);
+      mostrarStatus('URL salva com sucesso!', 'success');
+      
+      if (autoConnect.checked) {
+        await testarConexao(url);
+      }
+    });
+
+    botaoTestarConexao.addEventListener('click', async () => {
+      const url = entradaUrlServidor.value.trim().replace(/\/$/, '');
+      if (!url) {
+        mostrarStatus('Por favor, informe a URL do servidor primeiro.', 'error');
+        entradaUrlServidor.focus();
+        return;
+      }
+      
+      await testarConexao(url);
+    });
+
+    autoConnect.addEventListener('change', () => {
+      localStorage.setItem('autoConnect', autoConnect.checked);
+      if (autoConnect.checked) {
+        mostrarStatus('Conexão automática ativada', 'info');
+      }
+    });
+
+    showNotifications.addEventListener('change', () => {
+      localStorage.setItem('showNotifications', showNotifications.checked);
+      if (showNotifications.checked) {
+        mostrarStatus('Notificações ativadas', 'info');
+      }
+    });
+
+    // Validação em tempo real da URL
+    entradaUrlServidor.addEventListener('input', () => {
+      const url = entradaUrlServidor.value.trim();
+      if (url && !url.startsWith('http')) {
+        entradaUrlServidor.setCustomValidity('URL deve começar com http:// ou https://');
+      } else {
+        entradaUrlServidor.setCustomValidity('');
+      }
+    });
+
+    // Auto-conectar se habilitado
+    if (autoConnectSalvo && urlSalva) {
+      setTimeout(() => {
+        testarConexao(urlSalva);
+      }, 1000);
+    }
+
+    // Adicionar indicador de página atual na navegação
+    document.addEventListener('DOMContentLoaded', () => {
+      const currentPageLink = document.querySelector('.nav a[href="config.html"]');
+      if (currentPageLink) {
+        currentPageLink.parentElement.classList.add('current-page');
+      }
+    });
+  </script>
+  <script src="/static/scripts/nav-responsive.js"></script>
+</body>
+</html>

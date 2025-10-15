@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spectrum</title>
+  <link rel="stylesheet" href="/static/styles/estilo.css" />
+  <link rel="stylesheet" href="/static/styles/nav-responsive.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>  
+  <header>
+    <div class="fundo-menu">
+      <div class="menu" id="menu-hamburguer">
+        <span class="linha"></span>
+        <span class="linha"></span>
+        <span class="linha"></span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav" id="nav-elementos">
+    <ul>
+      <li>
+        <a href="index.html" data-label="Início">
+          <i class="fas fa-house"></i>
+        </a>
+      </li>
+      <li>
+        <a href="historico.html" data-label="Histórico">
+          <i class="fas fa-clock"></i>
+        </a>
+      </li>
+      <li>
+        <a href="config.html" data-label="Configurações">
+          <i class="fas fa-gear"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <main class="main-content">
+    <div class="search-container">
+      <form class="container-busca" onsubmit="searchMusic(event)">
+        <i class="fas fa-search icone-busca"></i>
+        <input type="text" class="barra-busca" placeholder="Pesquise por músicas, artistas ou álbuns">
+      </form>
+    </div>
+
+    <section class="album-section">
+      <h2>Álbuns para você</h2>
+      <div class="lista-album" id="lista-album">
+        <!-- Álbuns serão carregados dinamicamente quando conectar ao servidor -->
+        <div class="no-server-placeholder">
+          <img src="/static/assets/no-server-stats.png" alt="Aguardando conexão com servidor">
+          <p>Conecte-se ao servidor para ver os álbuns</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="musicas-section">
+      <h2>Músicas</h2>
+      <div class="lista-musicas" id="lista-musicas">
+        <!-- Músicas serão carregadas dinamicamente -->
+      </div>
+    </section>
+  </main>
+
+  <div id="player-bar" class="hidden">
+    <div class="player-content">
+      <img id="cover" src="" alt="Capa" />
+      <div id="player-controls">
+        <span id="nowPlaying">Nada tocando</span>
+        <input type="range" id="progressBar" value="0" min="0" max="100" />
+        
+        <div class="buttons">
+          <button id="prevBtn" aria-label="Música anterior"><i class="fas fa-backward"></i></button>
+          <button id="playPauseBtn" aria-label="Play/Pause"><i class="fas fa-play"></i></button>
+          <button id="nextBtn" aria-label="Próxima música"><i class="fas fa-forward"></i></button>
+          <button id="loopBtn" aria-label="Repetir"><i class="fas fa-redo"></i></button>
+          <button id="newPlayerBtn" aria-label="Novo player"><i class="fas fa-compact-disc"></i></button>
+        </div>
+      </div>
+    </div>
+    <audio id="audio" preload="none"></audio>
+  </div>
+
+  <script>
+    function searchMusic(event) {
+      event.preventDefault();
+      const query = document.querySelector('.barra-busca').value.trim();
+      if(query) {
+        window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+      }
+    }
+  </script>
+
+  <script src="/static/scripts/nav-responsive.js"></script>
+  <script src="/static/scripts/app.js" defer></script>
+  <script src="/static/scripts/player.js"></script>
+  <script src="/static/scripts/search.js" defer></script>
+
+</body>
+
+</html>

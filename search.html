@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Resultados da Pesquisa</title>
+  <link rel="stylesheet" href="/static/styles/search.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <header>
+    <h1>Resultados da Pesquisa</h1>
+    <a href="index.html">← Voltar</a>
+  </header>
+
+  <form class="container-busca" onsubmit="searchMusic(event)">
+  <i class="fas fa-search icone-busca"></i>
+  <input type="text" class="barra-busca" placeholder="Pesquisa ai seu puto">
+</form>
+
+<script>
+function searchMusic(event) {
+    event.preventDefault()
+    const query = document.querySelector('.barra-busca').value.trim();
+    if(query) {
+        window.location.href = `search.html?q=${encodeURIComponent(query)}`
+    }
+}
+</script>
+
+  <main>
+    <div class="musicas">
+      <div class="lista-musicas"></div>
+    </div>
+  </main>
+
+  <div id="player-bar" class="hidden">
+    <img id="cover" src="" alt="Capa da música" />
+    <div id="nowPlaying">Nenhuma música tocando</div>
+    <audio id="audio" controls></audio>
+  </div>
+
+  <script src="/static/scripts/search.js"></script>
+</body>
+</html>

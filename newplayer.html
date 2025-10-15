@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player de Música - Spectrum</title>
+    <link rel="stylesheet" href="/static/styles/newplayer.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="player-container">
+        <div class="background-blur" id="backgroundBlur"></div>
+        
+        <!-- Header -->
+        <header class="player-header">
+            <button class="back-btn" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1>Tocando Agora</h1>
+            <button class="menu-btn" onclick="toggleMenu()">
+                <i class="fas fa-ellipsis-v"></i>
+            </button>
+        </header>
+
+        <!-- Menu dropdown -->
+        <div class="dropdown-menu" id="dropdownMenu">
+            <a href="#" onclick="addToFavorites()">
+                <i class="fas fa-heart"></i>
+                Adicionar aos Favoritos
+            </a>
+            <a href="#" onclick="addToPlaylist()">
+                <i class="fas fa-plus"></i>
+                Adicionar à Playlist
+            </a>
+            <a href="#" onclick="shareMusic()">
+                <i class="fas fa-share"></i>
+                Compartilhar
+            </a>
+            <a href="historico.html">
+                <i class="fas fa-history"></i>
+                Ver Histórico
+            </a>
+        </div>
+
+        <main class="player-main">
+            <div class="album-cover-container">
+                <div class="album-cover" id="albumCover">
+                    <img id="coverImage" src="/static/assets/no-server-stats.png" alt="Capa do álbum">
+                    <div class="vinyl-effect"></div>
+                </div>
+            </div>
+
+            <!-- Informações da música -->
+            <div class="music-info">
+                <h2 id="musicTitle">Selecione uma música</h2>
+                <p id="musicArtist">Artista desconhecido</p>
+            </div>
+
+            <!-- Barra de progresso -->
+            <div class="progress-container">
+                <span id="currentTime">0:00</span>
+                <div class="progress-bar">
+                    <input type="range" id="progressSlider" min="0" max="100" value="0">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <span id="totalTime">0:00</span>
+            </div>
+
+            <!-- Controles do player -->
+            <div class="player-controls">
+                <button class="control-btn secondary" id="shuffleBtn">
+                    <i class="fas fa-random"></i>
+                </button>
+                <button class="control-btn secondary" id="prevBtn">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="control-btn primary" id="playPauseBtn">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="control-btn secondary" id="nextBtn">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+                <button class="control-btn secondary" id="repeatBtn">
+                    <i class="fas fa-redo"></i>
+                </button>
+            </div>
+
+            <!-- Controles de volume -->
+            <div class="volume-container">
+                <i class="fas fa-volume-down"></i>
+                <div class="volume-bar">
+                    <input type="range" id="volumeSlider" min="0" max="100" value="50">
+                    <div class="volume-fill" id="volumeFill"></div>
+                </div>
+                <i class="fas fa-volume-up"></i>
+            </div>
+        </main>
+
+        <!-- Lista de reprodução -->
+        <section class="playlist-section">
+            <div class="playlist-header">
+                <h3>Fila de Reprodução</h3>
+                <button class="clear-queue-btn" onclick="clearQueue()">
+                    <i class="fas fa-trash"></i>
+                    Limpar
+                </button>
+            </div>
+            <div class="playlist-container" id="playlistContainer">
+                <div class="empty-playlist">
+                    <i class="fas fa-music"></i>
+                    <p>Nenhuma música na fila</p>
+                    <button onclick="goToLibrary()">Explorar Música</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Elemento de áudio -->
+        <audio id="audioPlayer" preload="none"></audio>
+    </div>
+
+    <script src="/static/scripts/newplayer.js"></script>
+</body>
+</html>
